@@ -12,6 +12,12 @@ This WhatsApp clone is essential to developing a framework and learning to creat
 ## Apps
 Apps contain all the microservices code written in Node.js. Currently, it has simple code that is written to develop a lightweight framework.
 
+### How to run an App
+To run the app :
+```shell 
+run.sh <environment>
+```
+
 ### Import and Export
 The file type for Node.js apps is a module. Hence, the project uses "Import" and "Export".
 
@@ -76,4 +82,17 @@ new GetRoute('/example/secure')
     'Error!'
   )
 );
+```
+### To create a Repository
+To create a new model repository, consider the following code snippet:
+
+```javascript
+import Model from '@models';
+import Repository from '@utils/Repository';
+
+export default class UserRepository extends Repository {
+    constructor() {
+        super(Model.User);
+    }
+} 
 ```
