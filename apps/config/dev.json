@@ -1,0 +1,22 @@
+{
+    "port": 3000,
+    "postgres": {
+        "database": "whatsapp_clone",
+        "username": "whatsapp_clone",
+        "password": "whatsapp_clone",
+        "port": "5432"
+    },
+    "jwt": {
+        "secret": "747e7eead27b6f6611cc9a1b75d2d1faace28a663b523576cb9106c51be3c13e",
+        "expire": "90d"
+    },
+    "aws": {
+        "access_key_id": "AKIA4XLWVA6YD45NRWND",
+        "secret_access_key": "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",
+        "regin": "ap-aouth-1",
+        "s3": {
+            "bucket": "whatsapp-clone-local",
+            "expiration": 3600
+        }
+    }
+}
