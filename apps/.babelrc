@@ -15,7 +15,8 @@
                     "@middleware": "./middleware",
                     "@aws": "./aws",
                     "@config": "./config",
-                    "@constants": "./constants"
+                    "@constants": "./constants",
+                    "@repositories": "./repositories"
                 }
             }
         ]

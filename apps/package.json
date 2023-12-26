@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "NODE_ENV=dev nodemon --exec babel-node index.js --extensions \".js,.jsx,.ts,.tsx\""
+    "start:dev": "npm i && NODE_ENV=dev nodemon --exec babel-node index.js --extensions \".js,.jsx,.ts,.tsx\""
   },
   "author": "Mukul Gupta",
   "license": "ISC",

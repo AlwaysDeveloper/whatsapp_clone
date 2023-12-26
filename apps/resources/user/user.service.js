@@ -1,5 +1,4 @@
-import UserRepository from "./user.repository";
-
+import UserRepository from "@repositories/UserRepository";
 
 export default class UserService {
     userRepository = new UserRepository();
