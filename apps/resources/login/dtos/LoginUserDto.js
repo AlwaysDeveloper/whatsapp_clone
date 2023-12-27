@@ -1,11 +1,8 @@
 import DTO from '@utils/DTO';
 
-export default class CreateUserDto extends DTO {
-    fullName;
-    email;
-    msnid;
+export default class UserLoginDto extends DTO {
+    username;
     password;
-    countryCode;
 
     constructor(source) {
         super(source);

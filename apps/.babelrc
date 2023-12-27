@@ -16,7 +16,8 @@
                     "@aws": "./aws",
                     "@config": "./config",
                     "@constants": "./constants",
-                    "@repositories": "./repositories"
+                    "@repositories": "./repositories",
+                    "@common": "./common"
                 }
             }
         ]

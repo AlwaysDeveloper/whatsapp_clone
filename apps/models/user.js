@@ -2,7 +2,9 @@
 
 import { Model } from 'sequelize';
 import { v4 } from 'uuid';
+import crypto from 'crypto';
 import enums from '../constants/enums';
+import PasswordManager from '../common/PasswordManager';
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -13,6 +15,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+    }
+
+    toJSON(user) {
+      delete user['id'];
+      delete user['createdAt'];
+      delete user['updatedAt'];
+      return user;
     }
   }
   User.init({
@@ -32,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     fullName: {
       type: DataTypes.STRING,
       allowNull: false
@@ -50,8 +63,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
-    user_role: {
+    userRole: {
       type: DataTypes.ENUM(Object.values(enums.userRole)),
+      field: 'user_role',
       allowNull: false,
       defaultValue: enums.userRole.user
     },
@@ -70,9 +84,9 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
     tableName: 'users',
     hooks: {
-      beforeValidate: (user, options) =>{
-        console.log("HERE")
+      beforeValidate: async (user, options) => {
         user.exId = v4();
+        user.password = await new PasswordManager().hash(user.password ? user.password : crypto.randomBytes(32).toString('hex'));
         if (!user.username) {
           user.username = `${user.email.split('@')[0]}@${user.msnid.split(user.msnid.length - 1)}`
         }

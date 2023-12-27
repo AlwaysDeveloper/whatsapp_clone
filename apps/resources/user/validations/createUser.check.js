@@ -1,5 +1,5 @@
 import rule from "@utils/validations/rule";
-import notEmpty from "@utils/validations/required";
+import notEmpty from "@utils/validations/notEmpty";
 import isEmail from "@utils/validations/isEmail";
 import validate from "@utils/validations/validate";
 
