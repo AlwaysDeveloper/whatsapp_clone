@@ -1,5 +1,12 @@
 {
-    "presets": ["@babel/preset-env"],
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "modules": "commonjs"
+            }
+        ]
+    ],
     "plugins": [
         [
             "module-resolver",
@@ -17,7 +24,8 @@
                     "@config": "./config",
                     "@constants": "./constants",
                     "@repositories": "./repositories",
-                    "@common": "./common"
+                    "@common": "./common",
+                    "@test": "./test"
                 }
             }
         ]

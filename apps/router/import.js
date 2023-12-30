@@ -11,7 +11,7 @@ export default class AutoImport {
             this.includes = include;
         }
         this.load = load;
-        this.scanApp().forEach((source) => this.getAllApiFiles(source));
+        this.#scanApp().forEach((source) => this.#getAllApiFiles(source));
         this.apiFiles.forEach((toRequire) => {
             if (readFileSync(toRequire).length === 0) {
                 console.log('\x1b[33m%s\x1b[0m', `[Warning]: ${toRequire} is empty. Please check!`);
@@ -22,7 +22,7 @@ export default class AutoImport {
         });
     }
 
-    checkFileToLoad(filename) {
+    #checkFileToLoad(filename) {
         let toLoad = false;
         this.load.forEach(item => {
             if (filename.indexOf(item) !== -1) {
@@ -32,7 +32,7 @@ export default class AutoImport {
         return toLoad;
     }
 
-    checkDirectoryToLoad(dirName) {
+    #checkDirectoryToLoad(dirName) {
         let toLoad = false;
         if (Array.isArray(this.includes)) {
             this.includes.forEach(item => {
@@ -44,29 +44,29 @@ export default class AutoImport {
         return toLoad;
     }
 
-    scanApp() {
+    #scanApp() {
         const rootDirectories = []
         readdirSync(path.resolve())
             .forEach((item) => {
                 item = path.join(path.resolve(), item);
                 const stats = statSync(item);
-                if (!stats.isDirectory() && this.checkFileToLoad(item)) {
+                if (!stats.isDirectory() && this.#checkFileToLoad(item)) {
                     this.apiFiles.push(item);
-                } else if (stats.isDirectory() && this.checkDirectoryToLoad(item)) {
+                } else if (stats.isDirectory() && this.#checkDirectoryToLoad(item)) {
                     rootDirectories.push(item);
                 }
             });
         return rootDirectories;
     }
 
-    getAllApiFiles(source) {
+    #getAllApiFiles(source) {
         const stats = statSync(source);
-        if (!stats.isDirectory() && this.checkFileToLoad(source)) {
+        if (!stats.isDirectory() && this.#checkFileToLoad(source)) {
             this.apiFiles.push(source);
-        } else if (stats.isDirectory() && this.checkDirectoryToLoad(source)) {
+        } else if (stats.isDirectory() && this.#checkDirectoryToLoad(source)) {
             readdirSync(source)
                 .map(item => `${source}/${item}`)
-                .forEach(item => this.getAllApiFiles(item));
+                .forEach(item => this.#getAllApiFiles(item));
         }
     }
 }

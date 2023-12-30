@@ -1,11 +1,11 @@
 {
   "name": "whatsapp-clone",
   "version": "1.0.0",
-  "description": "Whatsapp clone with further spliting in microservices",
+  "description": "Whatsapp clone with further spiting in microservices",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Info: Unit testing starting..\" && NODE_ENV=test mocha --require @babel/register",
     "start:dev": "npm i && NODE_ENV=dev nodemon --exec babel-node index.js --extensions \".js,.jsx,.ts,.tsx\""
   },
   "author": "Mukul Gupta",
@@ -28,8 +28,14 @@
     "@babel/core": "^7.23.6",
     "@babel/node": "^7.22.19",
     "@babel/preset-env": "^7.23.6",
+    "@babel/register": "^7.22.15",
+    "babel-jest": "^29.7.0",
     "babel-plugin-module-resolver": "^5.0.0",
+    "chai": "^5.0.0",
+    "mocha": "^10.2.0",
     "nodemon": "^3.0.2",
-    "sequelize-cli": "^6.6.2"
+    "nyc": "^15.1.0",
+    "sequelize-cli": "^6.6.2",
+    "sinon": "^17.0.1"
   }
 }

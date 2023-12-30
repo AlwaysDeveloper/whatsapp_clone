@@ -3,10 +3,10 @@ import { QueryTypes } from 'sequelize';
 export default class Repository {
     constructor(model) {
         Object.assign(this, model);
-        this._defineMethods(model);
+        this.#defineMethods(model);
     }
 
-    _defineMethods(model) {
+    #defineMethods(model) {
         const attributes = this.rawAttributes;
         Object
             .keys(attributes)

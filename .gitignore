@@ -41,6 +41,8 @@ build/Release
 # Dependency directories
 apps/*/node_modules/
 apps/node_modules/
+apps/*/test/temp_resource
+apps/test/temp_resource
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
