@@ -7,7 +7,7 @@
         "port": "5433"
     },
     "jwt": {
-        "secret": "747e7eead27b6f6611cc9a1b75d2d1faace28a663b523576cb9106c51be3c13e",
+        "secret": "_HELLO_WORLD_",
         "expire": "90d"
     },
     "aws": {
