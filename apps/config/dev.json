@@ -18,5 +18,8 @@
             "bucket": "whatsapp-clone-local",
             "expiration": 3600
         }
+    },
+    "passwordManager": {
+        "salt": 12
     }
 }

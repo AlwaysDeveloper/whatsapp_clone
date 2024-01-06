@@ -1,5 +1,12 @@
 {
-    "presets": ["@babel/preset-env"],
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "modules": "commonjs"
+            }
+        ]
+    ],
     "plugins": [
         [
             "module-resolver",
@@ -16,9 +23,14 @@
                     "@aws": "./aws",
                     "@config": "./config",
                     "@constants": "./constants",
-                    "@repositories": "./repositories"
+                    "@repositories": "./repositories",
+                    "@common": "./common",
+                    "@test": "./test"
                 }
             }
+        ],
+        [
+            "istanbul"
         ]
     ]
 }

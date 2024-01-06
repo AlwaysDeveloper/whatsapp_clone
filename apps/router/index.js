@@ -9,7 +9,7 @@ const defaultAuth = (req, res, next) => next();
 class Route {
     _path;
     _method;
-    _route = [];
+    #route = [];
 
     _checkPath() {
         if (!this._path || this._path === null) {
@@ -20,35 +20,35 @@ class Route {
     }
 
     secure(security = AuthenticateToken) {
-        this._route[0] = security;
+        this.#route[0] = security;
         return this;
     }
 
     auth(authenticator = defaultAuth) {
-        this._route[1] = authenticator;
+        this.#route[1] = authenticator;
         return this;
     }
 
     addMiddleware(middleware) {
-        this._route.push(middleware);
+        this.#route.push(middleware);
         return this;
     }
 
     bind(handler) {
-        this._route.push(execute(handler));
+        this.#route.push(execute(handler));
         this._checkPath();
         switch (this._method) {
             case 'get':
-                application.get(this._path, ...this._route);
+                application.get(this._path, ...this.#route);
                 break;
             case 'post':
-                application.post(this._path, ...this._route);
+                application.post(this._path, ...this.#route);
                 break;
             case 'put':
-                application.put(this._path, ...this._route);
+                application.put(this._path, ...this.#route);
                 break;
             case 'delete':
-                application.delete(this._path, ...this._route);
+                application.delete(this._path, ...this.#route);
                 break;
         }
     }

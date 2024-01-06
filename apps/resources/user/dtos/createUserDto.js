@@ -1,10 +1,14 @@
-import CreateDto from '@utils/CreateDto';
+import DTO from "@utils/DTO";
 
-export default function CreateUserDto() {
-    return CreateDto({
-        fullName: undefined,
-        email: undefined,
-        msnid: undefined,
-        countryCode: undefined
-    });
+
+export default class CreateUserDto {
+    fullName;
+    email;
+    msnid;
+    password;
+    countryCode;
+
+    constructor(source) {
+        DTO(source)(this);
+    }
 }

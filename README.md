@@ -83,6 +83,7 @@ new GetRoute('/example/secure')
   )
 );
 ```
+
 ### To create a Repository
 To create a new model repository, consider the following code snippet:
 

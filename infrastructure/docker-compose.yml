@@ -18,6 +18,25 @@ services:
         psql -U whatsapp_clone -c 'CREATE DATABASE whatsapp_clone;'
         wait
       "
+      
+  postgres_sql_test:
+    container_name: whatsapp_clone_sql_test
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: whatsapp_clone_test
+      POSTGRES_PASSWORD: whatsapp_clone_test
+    ports:
+      - "5433:5432"
+    volumes:
+      - sbt-pg-dataset-test:/var/lib/postgresql/data
+    command: >
+      bash -c "
+        /usr/local/bin/docker-entrypoint.sh postgres -c 'log_statement=all' &
+        sleep 10
+        psql -U whatsapp_clone_test -c 'CREATE DATABASE whatsapp_clone_test;'
+        wait
+      "
 
   pgadmin:
     container_name: sbt-pgadmin
@@ -31,3 +50,4 @@ services:
 
 volumes:
   sbt-pg-dataset:
+  sbt-pg-dataset-test:  

@@ -1,36 +1,77 @@
-import { QueryTypes } from 'sequelize';
+import { Model, FindOptions, UpdateOptions, DestroyOptions, BulkCreateOptions, QueryTypes } from "sequelize";
 
 export default class Repository {
-    constructor(model) {
-        Object.assign(this, model);
-        this._defineMethods(model);
-    }
-
-    _defineMethods(model) {
-        const attributes = this.rawAttributes;
-        Object
-            .keys(attributes)
-            .forEach(key => {
-                if (['createdat', 'updatedat'].includes(key.toLocaleLowerCase())) { return }
-                this[`findBy${key}`] = (value, options = {}) => {
-                    const { where, ...attributes } = options;
-                    return model.findOne({ where: { ...where, [key]: value }, ...attributes });
-                }
-            });
-
-        this.create = model.create;
-        this.findAll = model.findAll;
-        this.update = model.update;
-        this.delete = model.delete;
+    /**
+     * 
+     * @param {Model} model 
+     */
+    constructor(model){
+        if(!model) { 
+            throw new Error('Model is required!'); 
+        }
+        this.model = model;
     }
 
     /**
      * 
-     * @param {string} queryString 
-     * @param {QueryTypes} queryType 
-     * @param {Object} replacements 
+     * @param { FindOptions } criteria 
+     * @returns { Promise<Model|null> } 
      */
-    query(queryString, queryType, replacements) {
-        return this.sequelize.query(queryString, { type: queryType, replacements });
+    find(criteria) {
+        return this.model.findOne(criteria);
+    }
+
+    /**
+     * 
+     * @param { Object|Object[] } records 
+     * @param { BulkCreateOptions } options 
+     * @returns { Promise<Model|Model[]> }
+     */
+    create(records, options = null) {
+        if(Array.isArray(records) && options === null) {
+            throw new Error('Bulk create options are required for an array of records.');
+        }
+        else if(options === null) {
+            return this.model.create(records);
+        }
+        return this.model.bulkCreate(records, options);
+    }
+
+    /**
+     * 
+     * @param { Object } data 
+     * @param { UpdateOptions } options 
+     * @returns { Promise<Model|null> }
+     */
+    update(data, options) {
+        return this.model.update(data, options);
+    }
+
+    /**
+     * 
+     * @param { DestroyOptions & { isForever?: boolean } } options 
+     * @returns { Promise<Model|null> }
+     */
+    delete(options) {
+        if(options.isForever) { 
+            return this.model.destroy(options);
+        }
+        return this.model.update({ status: false }, options);
+    }
+
+    /**
+     * 
+     * @param { string } sql 
+     * @param { QueryTypes } type 
+     * @param { Object } replacements 
+     * @returns { Promise<Array<Object>> } 
+     */
+    query(sql, type, replacements) {
+        return this.model.sequelize.query(
+            sql, {
+                type,
+                replacements
+            }
+        );
     }
 }
