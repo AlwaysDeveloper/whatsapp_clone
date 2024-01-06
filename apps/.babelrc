@@ -28,6 +28,9 @@
                     "@test": "./test"
                 }
             }
+        ],
+        [
+            "istanbul"
         ]
     ]
 }

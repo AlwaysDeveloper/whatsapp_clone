@@ -42,7 +42,7 @@ export default class MockApp {
 
     post(...args) {
         this.#map({
-            method: 'get',
+            method: 'post',
             route: args.shift(),
             pipeline: args.pop()
         });
@@ -50,7 +50,7 @@ export default class MockApp {
 
     put(...args) {
         this.#map({
-            method: 'get',
+            method: 'put',
             route: args.shift(),
             pipeline: args.pop()
         });
@@ -58,7 +58,7 @@ export default class MockApp {
 
     delete(...args) {
         this.#map({
-            method: 'get',
+            method: 'delete',
             route: args.shift(),
             pipeline: args.pop()
         });

@@ -1,6 +1,7 @@
-import DTO from '@utils/DTO';
+import DTO from "@utils/DTO";
 
-export default class CreateUserDto extends DTO {
+
+export default class CreateUserDto {
     fullName;
     email;
     msnid;
@@ -8,6 +9,6 @@ export default class CreateUserDto extends DTO {
     countryCode;
 
     constructor(source) {
-        super(source);
+        DTO(source)(this);
     }
 }

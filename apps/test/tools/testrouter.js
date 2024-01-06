@@ -1,32 +1,78 @@
 let app;
 
 class MockRoute {
-    #pipeline;
+    #endpoint;
     constructor(method, route) {
-        if (!app[method]) {
-            throw new Error('Mock app is not initialized yet.');
-        } else if (!app[method][route]) {
-            throw new Error(`${method}(${route}) not found!`);
-        }
-        this.#pipeline = app[method][route];
+        this.#set(method, route)
     }
 
-    #createPipeline(middlewares = []) {
-        middlewares.forEach((fn) => {
-            (reqOrError, res, next) => {
-                if (reqOrError instanceof Error) {
+    #set(method, route) {
+        const _app = app.router;
+        if (!_app[method]) {
+            throw new Error('Mock app is not initialized yet.');
+        } else if (!_app[method][route]) {
+            throw new Error(`${method}(${route}) not found!`);
+        }
+        this.#endpoint = _app[method][route];
+    }
 
-                } else { }
+    /**
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     * @param {Function} next 
+     * @returns {Promise<Object>}
+     */
+    execute(req, res) { 
+        return new Promise((resolve, reject) => {
+            try {
+                res.json = (data) => resolve(data)
+                this.#endpoint(req, res, (error) => {throw error;})
+                    .catch(error => { throw error });
+            } catch (error) {
+                reject(error);
             }
         });
     }
-
-    execute() { }
 }
 
-class TestGetRoute extends MockRoute {
+export class TestGetRoute extends MockRoute {
+    /**
+     * 
+     * @param {string} route 
+     */
     constructor(route) {
         super('get', route);
+    }
+}
+
+export class TestPostRoute extends MockRoute {
+    /**
+     * 
+     * @param {string} route 
+     */
+    constructor(route) {
+        super('post', route);
+    }
+}
+
+export class TestPutRoute extends MockRoute {
+    /**
+     * 
+     * @param {string} route 
+     */
+    constructor(route) {
+        super('put', route);
+    }
+}
+
+export class TestDeleteRoute extends MockRoute {
+    /**
+     * 
+     * @param {string} route 
+     */
+    constructor(route) {
+        super('delete', route);
     }
 }
 /**

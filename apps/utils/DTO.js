@@ -1,20 +1,16 @@
 import ApiError from '@utils/errors/apierror';
 
-export default class DTO {
-    constructor(req) {
-        this._source = req;
-        this._map();
+export default function DTO(req) {
+    if(!req && !req.body) {
+        throw new ApiError(500, 'no valid source!');
     }
-
-    _map() {
-        if (!this._source && !this._source.body) {
-            throw new ApiError(500, 'no valid source!');
-        }
-        const source = this._source.body || this._source;
+    const source = req.body || req;
+    
+    return (object) => {
         Object
-            .keys(this)
+            .keys(object)
             .forEach((key) => {
-                this[key] = source[key]
+                object[key] = source[key]
             });
     }
 }

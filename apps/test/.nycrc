@@ -1,0 +1,23 @@
+{
+    "extends": "@istanbuljs/nyc-config-babel",
+    "report-dir": "./coverage",
+    "include": [
+      "*.js"
+    ],
+    "exclude": [
+      "**/*.test.js",
+      "config/**",
+      "constants/**",
+      "migrations/**",
+      "models/**",
+      "router/**",
+      "test/**",
+      "utils/**"
+    ],
+    "reporter": [
+      "lcov",
+      "text",
+      "html"
+    ]
+  }
+  
