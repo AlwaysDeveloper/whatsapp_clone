@@ -1,7 +1,7 @@
-import rule from "@utils/validations/rule";
-import notEmpty from "@utils/validations/notEmpty";
-import isEmail from "@utils/validations/isEmail";
-import validate from "@utils/validations/validate";
+import rule from "@validation/rule";
+import notEmpty from "@validation/notEmpty";
+import isEmail from "@validation/isEmail";
+import validate from "@validation/validate";
 
 const rules = {
     fullName: [rule(notEmpty, 'Full name is required!')],

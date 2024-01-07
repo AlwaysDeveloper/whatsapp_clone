@@ -1,7 +1,7 @@
 import UserRepository from '@repositories/UserRepository';
 import JWTSign from '@common/JWT';
 import PasswordManager from '@common/PasswordManager';
-import AuthenticationError from '@utils/errors/authenticationerror';
+import AuthenticationError from '@errors/authenticationerror';
 
 export default class LoginService {
     UserRepository = new UserRepository();
