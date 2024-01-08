@@ -26,8 +26,8 @@ class MockRoute {
     execute(req, res) { 
         return new Promise((resolve, reject) => {
             try {
-                res.json = (data) => resolve(data)
-                this.#endpoint(req, res, (error) => {throw error;})
+                res.json = (data) => resolve(data);
+                this.#endpoint(req, res, (error) => reject(error))
                     .catch(error => { throw error });
             } catch (error) {
                 reject(error);

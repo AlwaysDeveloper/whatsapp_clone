@@ -34,7 +34,13 @@ export default class Request {
      * @param {{[string]: [string]}} params 
      * @returns 
      */
-    setQuery(query){
-        return this.query = query;
+    setQuery(query) {
+        this.query = query;
+        return this;
+    }
+
+    setUser(user) {
+        this.user = user;
+        return this;
     }
 }
