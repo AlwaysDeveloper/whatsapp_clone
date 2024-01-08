@@ -44,7 +44,6 @@ To demonstrate how to create a new endpoint, consider the following code snippet
 
 ```javascript
 import {GetRouter} from '@Router';
-import Handler from '@utils/Handler';
 
 const example = (req) => {
   return 'Hello World!';
@@ -52,18 +51,15 @@ const example = (req) => {
 
 new GetRoute('/example')
 .bind(
-  Handler(
-    example,
-    'Successfully!',
-    'Error!'
-  )
+  example,
+  'Successfully!',
+  'Error!'
 );
 ```
 
 To make the endpoint secure i.e using JWT to authenticate and authorize as per user role, consider the following code snippet:
 ```javascript
 import {GetRouter} from '@Router';
-import Handler from '@utils/Handler';
 
 const example = (req) => {
   return 'Hello World!';
@@ -76,11 +72,9 @@ new GetRoute('/example/secure')
 //pass you middleware functions using this method in the call pipeline
 .addMiddleware()
 .bind(
-  Handler(
-    example,
-    'Successfully!',
-    'Error!'
-  )
+  example,
+  'Successfully!',
+  'Error!'
 );
 ```
 
