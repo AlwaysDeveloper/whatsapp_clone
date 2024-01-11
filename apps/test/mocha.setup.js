@@ -2,8 +2,6 @@ const { default: Router } = require('@router');
 const { default: MockApp } = require('@test/tools/mockapp');
 const { default: TestRouter } = require('@test/tools/testrouter');
 
-console.log("HERE")
-
 TestRouter(
     Router(
         new MockApp(),
@@ -12,4 +10,6 @@ TestRouter(
             load: ['api.js']
         }
     )
-)
+);
+
+console.log('Mocha setup done✅. Unit test running now 🏃‍♂️');

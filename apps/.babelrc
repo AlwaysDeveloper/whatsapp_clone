@@ -16,7 +16,9 @@
                 ],
                 "alias": {
                     "@utils": "./utils",
-                    "@router": "./router",
+                    "@errors": "./utils/errors",
+                    "@validation": "./utils/validations",
+                    "@router": "./lib/router",
                     "@resource": "./resource",
                     "@models": "./models",
                     "@middleware": "./middleware",

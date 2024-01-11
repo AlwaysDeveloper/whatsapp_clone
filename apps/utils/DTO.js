@@ -1,4 +1,4 @@
-import ApiError from '@utils/errors/apierror';
+import ApiError from '@errors/apierror';
 
 export default function DTO(req) {
     if(!req && !req.body) {
