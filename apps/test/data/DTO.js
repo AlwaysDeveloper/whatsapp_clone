@@ -8,3 +8,11 @@ export const CreateUserDummyDTO = () => {
         msnid: faker.phone.number()
     }
 };
+
+export const SaveCardDummyDTO = () => {
+    return {
+        channelId: faker.string.uuid(),
+        cardId: faker.string.uuid(),
+        userId: faker.string.uuid(),
+    }
+};

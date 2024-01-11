@@ -1,5 +1,4 @@
 import { PostRoute } from "@router";
-import Handler from "@utils/Handler";
 import S3 from '@aws/index'
 
 const getPresignedUpload = async (req) => {
@@ -10,8 +9,8 @@ const getPresignedUpload = async (req) => {
 
 new PostRoute('/v1/aws/s3/presigned/upload')
     .secure()
-    .bind(Handler(
+    .bind(
         getPresignedUpload,
         'Successfully get the url to upload file.',
         'Not able to upload. Please try again'
-    ));
+    );

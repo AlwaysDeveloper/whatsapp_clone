@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import config from '@config';
 import AuthenticationError from '../utils/errors/authenticationerror';
+import ApiError from '../utils/errors/apierror';
 
 function extractToken(token) {
     if (!token || !token.startsWith('Bearer')) {
@@ -24,7 +25,7 @@ function AuthenticateToken(req, res, next) {
             }
         );
     } catch (error) {
-
+        next(error);
     }
 }
 

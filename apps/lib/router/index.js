@@ -1,6 +1,7 @@
 import AuthenticateToken from '@middleware/authenticate';
 import AutoImport from './import';
 import execute from './executor';
+import Handler from './Handler';
 
 let application;
 
@@ -34,8 +35,22 @@ class Route {
         return this;
     }
 
-    bind(handler) {
-        this.#route.push(execute(handler));
+    /**
+     * 
+     * @param { Function } handler 
+     * @param { string } onSuccess 
+     * @param { string } onError 
+     */
+    bind(handler, onSuccess = 'Successfull', onError = 'Something went wrong!') {
+        this.#route.push(
+            execute(
+                Handler(
+                    handler,
+                    onSuccess,
+                    onError
+                )
+            )
+        );
         this._checkPath();
         switch (this._method) {
             case 'get':
