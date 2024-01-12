@@ -1,4 +1,4 @@
-import Respond from "../utils/Respond";
+import Respond from "@utils/Respond";
 
 /**
  * 
