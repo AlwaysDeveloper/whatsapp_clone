@@ -7,7 +7,7 @@ TestRouter(
         new MockApp(),
         {
             include: ['resources'],
-            load: ['api.js']
+            load: ['api.js', 'controller.js']
         }
     )
 );

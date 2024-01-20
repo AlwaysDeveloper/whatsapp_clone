@@ -1,6 +1,4 @@
 import DTO from "@utils/DTO";
-
-
 export default class CreateUserDto {
     fullName;
     email;

@@ -5,6 +5,7 @@ export default class AutoImport {
     includes;
     load;
     apiFiles = [];
+    controllers = [];
     constructor(options) {
         const { include, load } = options;
         if (include && Array.isArray(include)) {
@@ -18,7 +19,11 @@ export default class AutoImport {
             } else {
                 console.log(`[Loading]: ${toRequire}`)
             }
-            require(toRequire);
+            const controller = require(toRequire);
+            if(controller.hasOwnProperty('default')){
+                const main = controller.default;
+                this.controllers.push(main);
+            }
         });
     }
 

@@ -1,5 +1,4 @@
 import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
 import expectjs from 'expect.js';
 
 export const expect = expectjs;

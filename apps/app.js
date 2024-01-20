@@ -14,7 +14,7 @@ const app = Router(
     middlewares.reduce((app, middleware) => app.use(middleware), Express()),
     {
         include: ['resources'],
-        load: ['api.js']
+        load: ['api.js', 'controller.js']
     }
 );
 
