@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "test": "echo \"Info: Unit testing starting..\" && NODE_ENV=test nyc --nycrc-path test/.nycrc mocha --allow-uncaught --require @babel/register",
+    "test": "npm i && echo \"Info: Unit testing starting..\" && NODE_ENV=test mocha --allow-uncaught --require @babel/register",
     "start:dev": "npm i && NODE_ENV=dev nodemon --exec babel-node index.js --extensions \".js,.jsx,.ts,.tsx\""
   },
   "author": "Mukul Gupta",
@@ -27,10 +27,11 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.6",
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
     "@babel/node": "^7.22.19",
-    "@babel/preset-env": "^7.23.6",
-    "@babel/register": "^7.22.15",
+    "@babel/preset-env": "^7.23.8",
+    "@babel/register": "^7.23.7",
     "@faker-js/faker": "^8.3.1",
     "@istanbuljs/nyc-config-babel": "^3.0.0",
     "babel-jest": "^29.7.0",
@@ -39,9 +40,7 @@
     "chance": "^1.1.11",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.2",
-    "nyc": "^15.1.0",
     "sequelize-cli": "^6.6.2",
-    "sinon": "^17.0.1",
-    "sinon-chai": "^3.7.0"
+    "sinon": "^17.0.1"
   }
 }

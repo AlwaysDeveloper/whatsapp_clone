@@ -1,5 +1,3 @@
-import Respond from "@utils/Respond";
-
 /**
  * 
  * @param {function} handler 
@@ -10,7 +8,7 @@ export default function Handler(handler, onSuccess, onError) {
     return async (req) => {
         try {
             const result = await handler(req);
-            if(result instanceof Respond) {
+            if (!result.hasOwnProperty('onSuccess')) {
                 return {
                     Ok: {
                         message: result.onSuccess,

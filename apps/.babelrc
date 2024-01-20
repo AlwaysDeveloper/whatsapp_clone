@@ -1,13 +1,9 @@
 {
     "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "modules": "commonjs"
-            }
-        ]
+        "@babel/preset-env"
     ],
     "plugins": [
+        ["@babel/plugin-transform-modules-commonjs"],
         [
             "module-resolver",
             {
@@ -30,9 +26,6 @@
                     "@test": "./test"
                 }
             }
-        ],
-        [
-            "istanbul"
         ]
     ]
 }

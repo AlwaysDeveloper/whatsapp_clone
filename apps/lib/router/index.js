@@ -10,7 +10,12 @@ const defaultAuth = (req, res, next) => next();
 class Route {
     _path;
     _method;
+    _endpoint;
     #route = [];
+
+    constructor(endpoint){
+        this._endpoint = endpoint;
+    }
 
     _checkPath() {
         if (!this._path || this._path === null) {
@@ -30,7 +35,16 @@ class Route {
         return this;
     }
 
+    /**
+     * 
+     * @param { Function | Function[] } middleware 
+     * @returns 
+     */
     addMiddleware(middleware) {
+        if(!Array.isArray(middleware) && typeof middleware === 'function'){
+            middleware = [middleware];
+        }
+        this.#route = [...this.#route, ...middleware];
         this.#route.push(middleware);
         return this;
     }
@@ -41,11 +55,11 @@ class Route {
      * @param { string } onSuccess 
      * @param { string } onError 
      */
-    bind(handler, onSuccess = 'Successfull', onError = 'Something went wrong!') {
+    bind(onSuccess = 'Successfull', onError = 'Something went wrong!') {
         this.#route.push(
             execute(
                 Handler(
-                    handler,
+                    this._endpoint,
                     onSuccess,
                     onError
                 )
@@ -70,32 +84,32 @@ class Route {
 }
 
 export class GetRoute extends Route {
-    constructor(path) {
-        super();
+    constructor(path, endpoint) {
+        super(endpoint);
         this._path = path;
         this._method = 'get';
     }
 }
 
 export class PostRoute extends Route {
-    constructor(path) {
-        super();
+    constructor(path, endpoint) {
+        super(endpoint);
         this._path = path;
         this._method = 'post';
     }
 }
 
 export class PutRoute extends Route {
-    constructor(path) {
-        super();
+    constructor(path, endpoint) {
+        super(endpoint);
         this._path = path;
         this._method = 'put';
     }
 }
 
 export class DeleteRoute extends Route {
-    constructor(path) {
-        super();
+    constructor(path, endpoint) {
+        super(endpoint);
         this._path = path;
         this._method = 'get';
     }
@@ -106,6 +120,20 @@ export class DeleteRoute extends Route {
  * @property {string[]} include
  * @property {string[]} load
  */
+function loadControllers (importOption) {
+    const { controllers } = new AutoImport(importOption);
+
+    controllers.forEach(controller => {
+        controller = new controller();
+        Object
+            .values(controller)
+            .filter(value => value instanceof Route)
+            .forEach(route => {
+                console.log(`[Endpoint]: (${route._method.toUpperCase()}) ${route._path}`);
+                route.bind();
+            });
+    });
+}
 
 /**
  * 
@@ -115,6 +143,6 @@ export class DeleteRoute extends Route {
  */
 export default function Router(app, importOption) {
     application = app;
-    new AutoImport(importOption);
+    loadControllers(importOption);
     return app;
 }
