@@ -10,8 +10,6 @@ export default class RedirectController extends Controller{
                 new ShortenUrlRepository()
             )
         );
-
-        this.post('/v1/register', this.create);
     }
 
     create = this.post('/v1/register', async(req) => {
