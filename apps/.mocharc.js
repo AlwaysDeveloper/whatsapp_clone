@@ -1,4 +1,4 @@
 module.exports = {
     require: ['./test/setup.js', '@babel/register'],
-    spec: ['./**/*.test.js']
+    spec: ['./{,!(node_modules)/**}/*.{test,spec,e2e}.js']
 };

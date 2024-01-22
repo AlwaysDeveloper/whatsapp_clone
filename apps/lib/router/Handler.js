@@ -5,23 +5,16 @@
  * @param {string} onError 
  */
 export default function Handler(handler, onSuccess, onError) {
-    return async (req) => {
+    return async (req, res) => {
         try {
-            const result = await handler(req);
-            if (!result.hasOwnProperty('onSuccess')) {
-                return {
-                    Ok: {
-                        message: result.onSuccess,
-                        entity: result.result
-                    }
-                }
-            }
+            const result = await handler(req, res);
             return {
                 Ok: {
-                    message: onSuccess,
-                    entity: result
+                    type: result.type || 'response',
+                    message: result.onSuccess || onSuccess,
+                    entity: result.result || result
                 }
-            }
+            };
         } catch (error) {
             error.errorMessage = onError;
             return {
