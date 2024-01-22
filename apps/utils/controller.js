@@ -2,11 +2,6 @@ import { DeleteRoute, GetRoute, PostRoute, PutRoute } from "@router";
 import constants from "../constants/controller";
 
 export default class Controller {
-    service;
-    constructor (service, routes) {
-        this.service = service;
-    }
-
     /**
      * 
      * @param { string } route 
