@@ -1,14 +1,12 @@
 import ShortenUrlRepository from "@repositories/ShortenUrlRepository";
 import Controller from "@utils/controller";
 import CreateShortUrlDto from "./dtos/createShortUrlDto";
-import RedirectService from "./service";
+import RedirectService from "./redirect.service";
 
 export default class RedirectController extends Controller{
     constructor() {
-        super(
-            new RedirectService(
-                new ShortenUrlRepository()
-            )
+        this.service = new RedirectService(
+            new ShortenUrlRepository()
         );
     }
 
