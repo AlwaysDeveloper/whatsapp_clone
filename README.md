@@ -34,60 +34,30 @@ import Router from '@Router';
 const app = new Router();
 ```
 ### To create a new endpoint
-To create a new endpoint you need to import GetRoute, PostRoute, PutRoute, or DeleteRoute from @Route.
-Then import Handler from @utils/Handel and pass three arguments as follows:
-- LoginFunction
-- Message on success
-- Message on error
-
-To demonstrate how to create a new endpoint, consider the following code snippet:
+To create a new endpoint you need to import GetRoute, PostRoute, PutRoute, or DeleteRoute from @Route to a controller, consider the following code snippet:
 
 ```javascript
-import {GetRouter} from '@Router';
+import { GetRoute } from "@lib/router";
+import response from "@utils/response";
+export default class UserController {
+    constructor() {}
 
-const example = (req) => {
-  return 'Hello World!';
+    get = new GetRoute('/v1/user/create', async (req) => {
+        return response('Hello World !', 'Successfully create a new test user for now.');
+    });
 }
-
-new GetRoute('/example')
-.bind(
-  example,
-  'Successfully!',
-  'Error!'
-);
 ```
 
-To make the endpoint secure i.e using JWT to authenticate and authorize as per user role, consider the following code snippet:
-```javascript
-import {GetRouter} from '@Router';
-
-const example = (req) => {
-  return 'Hello World!';
-}
-
-new GetRoute('/example/secure')
-.secure()
-//pass your middleware function to handle authorization
-.auth()
-//pass you middleware functions using this method in the call pipeline
-.addMiddleware()
-.bind(
-  example,
-  'Successfully!',
-  'Error!'
-);
-```
 
 ### To create a Repository
 To create a new model repository, consider the following code snippet:
 
 ```javascript
-import Model from '@models';
-import Repository from '@utils/Repository';
+import Repository from '@models';
 
 export default class UserRepository extends Repository {
     constructor() {
-        super(Model.User);
+        super('User');
     }
 } 
 ```

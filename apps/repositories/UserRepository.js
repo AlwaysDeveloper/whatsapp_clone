@@ -1,10 +1,9 @@
-import Model from '@models';
 import { QueryTypes } from 'sequelize';
-import Repository from '@utils/Repository';
+import Repository from '@models';
 
 export default class UserRepository extends Repository {
     constructor() {
-        super(Model.User);
+        super('User');
     }
 
     getUserCredentials(exId) {

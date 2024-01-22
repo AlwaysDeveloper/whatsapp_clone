@@ -1,8 +1,16 @@
 import sinon from 'sinon';
-import expectjs from 'expect.js';
+import chai from 'chai';
+import sinonChai from 'sinon-chai';
 
-export const expect = expectjs;
+chai.use(sinonChai);
+const { expect, should, assert, version, util } = chai;
 
-export const sandbox = sinon.createSandbox;
-
-export const sub = sinon.createStubInstance;
+export default {
+    expect, 
+    should, 
+    assert,
+    version,
+    util,
+    sandbox: sinon.createSandbox,
+    sub: sinon.createStubInstance
+};

@@ -21,5 +21,8 @@
     },
     "passwordManager": {
         "salt": 12
+    },
+    "shorturl": {
+        "base": "http://localhost:3000"
     }
 }

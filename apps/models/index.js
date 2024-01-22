@@ -1,43 +1,74 @@
-'use strict';
+import Model from './db';
+export default class Repository {
+    #model;
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+    constructor(model) {
+        if(!model) { 
+            throw new Error('Model is required!'); 
+        }
+        this.#model = Model[model];
+    }
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+    /**
+     * 
+     * @param { FindOptions } criteria 
+     * @returns { Promise<Model|null> } 
+     */
+    find(criteria) {
+        return this.#model.findOne(criteria);
+    }
+
+    /**
+     * 
+     * @param { Object|Object[] } records 
+     * @param { BulkCreateOptions } options 
+     * @returns { Promise<Model|Model[]> }
+     */
+    create(records, options = null) {
+        if(Array.isArray(records) && options === null) {
+            throw new Error('Bulk create options are required for an array of records.');
+        }
+        else if(options === null) {
+            return this.#model.create(records);
+        }
+        return this.#model.bulkCreate(records, options);
+    }
+
+    /**
+     * 
+     * @param { Object } data 
+     * @param { UpdateOptions } options 
+     * @returns { Promise<Model|null> }
+     */
+    update(data, options) {
+        return this.#model.update(data, options);
+    }
+
+    /**
+     * 
+     * @param { DestroyOptions & { isForever?: boolean } } options 
+     * @returns { Promise<Model|null> }
+     */
+    delete(options) {
+        if(options.isForever) { 
+            return this.#model.destroy(options);
+        }
+        return this.#model.update({ status: false }, options);
+    }
+
+    /**
+     * 
+     * @param { string } sql 
+     * @param { QueryTypes } type 
+     * @param { Object } replacements 
+     * @returns { Promise<Array<Object>> } 
+     */
+    query(sql, type, replacements) {
+        return this.#model.sequelize.query(
+            sql, {
+                type,
+                replacements
+            }
+        );
+    }
 }
-
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
