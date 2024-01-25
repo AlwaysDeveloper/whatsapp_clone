@@ -27,6 +27,9 @@ case "$1" in
   test)
     npm run test
     ;;
+  coverage)
+    npm run coverage
+    ;;
   *)
     echo "Invalid environment: $1"
     exit 1

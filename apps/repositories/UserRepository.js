@@ -1,5 +1,5 @@
 import { QueryTypes } from 'sequelize';
-import Repository from '@models';
+import Repository from '../models';
 
 export default class UserRepository extends Repository {
     constructor() {
@@ -11,6 +11,6 @@ export default class UserRepository extends Repository {
             'SELECT exId, password, user_role FROM users WHERE exId = :id;',
             QueryTypes.SELECT,
             { id: exId }
-        )
+        );
     }
 }

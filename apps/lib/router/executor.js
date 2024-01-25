@@ -6,7 +6,6 @@ const onResponse = (req, res, result) => {
 };
 
 const onRedirect = (req, res, result) => {
-    console.log(result);
     res.redirect(result.code, result.url);
 }
 
