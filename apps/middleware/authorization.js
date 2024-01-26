@@ -19,7 +19,8 @@ export default function Authorization(UserRole) {
                 arrtibutes: ['exId'],
                 where: { 
                     exId: req.user.id,
-                    isActive: enums.userStatus.active
+                    isActive: enums.userStatus.active,
+                    userRole: UserRole
                 } 
             });
         
