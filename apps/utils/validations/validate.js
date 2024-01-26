@@ -19,7 +19,7 @@ function executeRules(rules, value) {
  * @param {object} rules 
  * @param {object} dto 
  */
-export default function validate(rules, dto) {
+export default function validate(rules, dto = {}) {
     const error = {};
     Object
         .keys(rules)

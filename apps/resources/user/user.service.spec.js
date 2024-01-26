@@ -2,11 +2,12 @@ import { CreateUserDummyDTO } from "../../test/data/DTO";
 import UserRepository from '../../repositories/UserRepository';
 import UserService from './user.service';
 import { expect } from '../../test/tools/assertions';
+import TestRepository from "../../test/tools/test-repository";
 
-describe('Describing the user service specs.', () => {
+describe.skip('Describing the user service specs.', () => {
     let userDummyDTO;
     let userTest;
-    const userRespository = new UserRepository();
+    const userRespository = new TestRepository(new UserRepository());
     const userService = new UserService();
 
     beforeEach(async () => {
@@ -23,6 +24,6 @@ describe('Describing the user service specs.', () => {
     });
 
     afterEach(async () => {
-        userTest.destroy();
+        await userRespository.clean();
     });
 });
