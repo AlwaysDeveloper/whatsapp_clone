@@ -1,11 +1,11 @@
 import Controller from "../../utils/controller";
 import response from "../../utils/response";
-import CreateUserDto from "./dtos/createUserDto";
 import UserService from "./user.service";
 import Authorization from "../../middleware/authorization";
 import enums from "../../constants/enums";
 import UserLoginCredentialsDto from "./dtos/user-login.dto";
 import ValidateForOtherServicesDto from "./dtos/validate-for-other-service.dto";
+import CreateUserDto from "./dtos/create-user.dto";
 export default class UserController extends Controller{
     constructor() {
         super();

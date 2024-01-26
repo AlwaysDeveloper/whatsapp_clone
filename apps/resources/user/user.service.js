@@ -1,11 +1,10 @@
 import UserRepository from '../../repositories/UserRepository';
 import JWTSign from "@common/JWT";
-import CreateUserValidation from "./validations/createUser.check";
-import UserLoginValidation from './validations/user-login.validation';
 import { userStatus } from '../../constants/enums';
 import PasswordManager from '../../common/PasswordManager';
 import AuthenticationError from '../../utils/errors/authenticationerror';
 import { JWTVerify } from '../../common/JWT';
+
 export default class UserService {
     constructor() { 
         this.repository = new UserRepository();
@@ -13,14 +12,12 @@ export default class UserService {
     }
 
     async create(user) {
-        CreateUserValidation(user);
         const newUser = await this.repository.create(user);
         const token = JWTSign({ id: newUser.exId, userRole: newUser.user_role });
         return { ...newUser, token };
     }
 
     async login(userCredentials) {
-        UserLoginValidation(userCredentials);
         const user = await this.repository.find({
             attributes: ['password', 'userRole', 'exId'],
             where: {
