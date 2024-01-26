@@ -69,6 +69,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: enums.userRole.user
     },
+    isActive: {
+      type: DataTypes.ENUM(Object.values(enums.userStatus)),
+      field: 'is_active',
+      allowNull: false,
+      defaultValue: enums.userStatus.active
+    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,

@@ -1,5 +1,5 @@
-import { DeleteRoute, GetRoute, PostRoute, PutRoute } from "@router";
-import constants from "../constants/controller";
+import { DeleteRoute, GetRoute, PostRoute, PutRoute } from "../lib/router";
+import constants from "@constants/controller";
 
 export default class Controller {
     /**

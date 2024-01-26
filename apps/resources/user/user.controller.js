@@ -1,19 +1,29 @@
-import { GetRoute, PostRoute } from "../../lib/router";
-import UserRepository from "../../repositories/UserRepository";
+import Controller from "../../utils/controller";
 import response from "../../utils/response";
 import CreateUserDto from "./dtos/createUserDto";
 import UserService from "./user.service";
-export default class UserController {
+import Authorization from "../../middleware/authorization";
+import enums from "../../constants/enums";
+import UserLoginCredentialsDto from "./dtos/user-login.dto";
+import ValidateForOtherServicesDto from "./dtos/validate-for-other-service.dto";
+export default class UserController extends Controller{
     constructor() {
-        this.service = new UserService(
-            new UserRepository()
-        );
+        super();
+        this.service = new UserService();
     }
 
-    createUser = new PostRoute('/v1/user/create', async (req) => {
+    create = this.post('/v1/user/create', async (req) => {
         const result = await this.service.create(new CreateUserDto(req));
-        return response(result, 'Successfully create a new test user for now.');
+        return this.response(result, 'Successfully create a new test user for now.');
     });
 
-    getUser = new GetRoute('/v/user/:msid/find', (req) => this.service.findByMsnId(req.params.msid)).secure();
+    login = this.post('/v1/user/login', async(req) => {
+        const result = await this.service.login(new UserLoginCredentialsDto(req));
+        return result; 
+    });
+
+    validateForOtherServices = this.post('/v1/user/check/token', async (req) => {
+        const result = await this.service.loginWithToken(new ValidateForOtherServicesDto(req));
+        return result;
+    });
 }

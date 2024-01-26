@@ -5,7 +5,8 @@ export const CreateUserDummyDTO = () => {
         email: faker.internet.email(),
         fullName: faker.person.fullName(),
         countryCode: faker.location.countryCode(),
-        msnid: faker.phone.number()
+        msnid: faker.phone.number(),
+        username: faker.internet.userName()
     }
 };
 

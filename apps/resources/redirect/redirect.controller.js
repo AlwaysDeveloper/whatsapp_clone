@@ -5,6 +5,7 @@ import RedirectService from "./redirect.service";
 
 export default class RedirectController extends Controller{
     constructor() {
+        super();
         this.service = new RedirectService(
             new ShortenUrlRepository()
         );
