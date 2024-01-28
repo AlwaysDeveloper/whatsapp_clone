@@ -1,20 +1,25 @@
 import UserRepository from '../../repositories/UserRepository';
 import JWTSign from "@common/JWT";
-import { userStatus } from '../../constants/enums';
+import { UserStatus } from '../../constants/enums';
 import PasswordManager from '../../common/PasswordManager';
 import AuthenticationError from '../../utils/errors/authenticationerror';
 import { JWTVerify } from '../../common/JWT';
 
 export default class UserService {
-    constructor() { 
-        this.repository = new UserRepository();
-        this.passwordManager = new PasswordManager();
+    /**
+     * 
+     * @param { UserRepository } userRepository 
+     * @param { PasswordManager } passwordManager 
+     */
+    constructor(userRepository, passwordManager) { 
+        this.repository = userRepository;
+        this.passwordManager = passwordManager;
     }
 
     async create(user) {
         const newUser = await this.repository.create(user);
         const token = JWTSign({ id: newUser.exId, userRole: newUser.user_role });
-        return { ...newUser, token };
+        return { ...newUser.toJSON(), token };
     }
 
     async login(userCredentials) {
@@ -22,7 +27,7 @@ export default class UserService {
             attributes: ['password', 'userRole', 'exId'],
             where: {
                 username: userCredentials.username,
-                isActive: userStatus.active
+                isActive: UserStatus.active
             }
         });
         const isPasswordCheck = await this.passwordManager.verify(user.password, userCredentials.password);
@@ -39,7 +44,7 @@ export default class UserService {
             where: {
                 exId: decoded.id,
                 userRole: loginCredentials.userRole,
-                isActive: userStatus.active
+                isActive: UserStatus.active
             }
         });
         return user;

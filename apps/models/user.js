@@ -3,7 +3,7 @@
 import { Model } from 'sequelize';
 import { v4 } from 'uuid';
 import crypto from 'crypto';
-import enums from '../constants/enums';
+import { UserRoles, UserStatus } from '../constants/enums';
 import PasswordManager from '../common/PasswordManager';
 
 module.exports = (sequelize, DataTypes) => {
@@ -17,10 +17,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
 
-    toJSON(user) {
+    toJSON() {
+      const user = this.dataValues;
       delete user['id'];
       delete user['createdAt'];
       delete user['updatedAt'];
+      delete user['password']
       return user;
     }
   }
@@ -64,16 +66,16 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     },
     userRole: {
-      type: DataTypes.ENUM(Object.values(enums.userRole)),
+      type: DataTypes.ENUM(Object.values(UserRoles)),
       field: 'user_role',
       allowNull: false,
-      defaultValue: enums.userRole.user
+      defaultValue: UserRoles.user
     },
     isActive: {
-      type: DataTypes.ENUM(Object.values(enums.userStatus)),
+      type: DataTypes.ENUM(Object.values(UserStatus)),
       field: 'is_active',
       allowNull: false,
-      defaultValue: enums.userStatus.active
+      defaultValue: UserStatus.active
     },
     createdAt: {
       allowNull: false,
@@ -90,8 +92,15 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
     tableName: 'users',
     hooks: {
-      beforeValidate: async (user, options) => {
-        user.exId = v4();
+      beforeValidate: async (user) => {
+        if(!user.exId){
+          user.exId = v4();
+        }
+        if(!user.password) {
+          user.password = await new PasswordManager().hash(user.password ? user.password : crypto.randomBytes(32).toString('hex'));
+        }
+      },
+      beforeCreate: async (user, options) => {
         user.password = await new PasswordManager().hash(user.password ? user.password : crypto.randomBytes(32).toString('hex'));
         if (!user.username) {
           user.username = `${user.email.split('@')[0]}@${user.msnid.split(user.msnid.length - 1)}`

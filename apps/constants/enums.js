@@ -1,12 +1,11 @@
-export default {
-    userRole: {
-        admin: 'ADMIN',
-        business: 'BUSINESS',
-        user: 'USER'
-    },
-    userStatus: {
+export const UserRoles = {
+    admin: 'ADMIN',
+    business: 'BUSINESS',
+    user: 'USER'
+};
+
+export const UserStatus = {
         active: 'ACTIVE',
         blocked: 'BLOCKED',
         deleted: 'DELETED'
     }
-}

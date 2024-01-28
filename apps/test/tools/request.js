@@ -1,4 +1,8 @@
 export default class Request {
+    body = {};
+    headers = {};
+    params = {};
+    query = {};
     /**
      * 
      * @param {{[string]: [string | object | Array | number | boolean]}} params 

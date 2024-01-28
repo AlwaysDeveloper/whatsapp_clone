@@ -20,7 +20,10 @@ const executor = (handler) => {
     }
     return async (req, res, next) => {
         const result = await handler(req, res);
-        if (result.Error) { next(result.Error); }
+        if (result.Error) {
+            next(result.Error); 
+            return;
+        }
         const { Ok } = result;
         actions[Ok.type](req, res, result);
     }
