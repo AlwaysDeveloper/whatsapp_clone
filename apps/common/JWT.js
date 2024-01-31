@@ -1,13 +1,12 @@
 import JsonWebToken from 'jsonwebtoken';
-import config from '@config';
 import AuthenticationError from '../utils/errors/authenticationerror';
 
 export function JWTSign(payload) {
     return JsonWebToken.sign(
         payload,
-        config.jwt.secret,
+        APP_CONFIG.jwt.secret,
         {
-            expiresIn: config.jwt.expire
+            expiresIn: APP_CONFIG.jwt.expire
         }
     );
 }
@@ -16,7 +15,7 @@ export function JWTVerify(token) {
     return new Promise((resolve, reject) => {
         JsonWebToken.verify(
             token,
-            config.jwt.secret,
+            APP_CONFIG.jwt.secret,
             (error, decoded) => {
                 if(error) {
                     reject(new AuthenticationError('Unauthorized'));

@@ -30,5 +30,4 @@ export default class UserController extends Controller{
         const result = await this.service.loginWithToken(new ValidateForOtherServicesDto(req));
         return result;
     });
-
 }

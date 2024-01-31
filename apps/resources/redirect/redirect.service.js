@@ -1,4 +1,3 @@
-import config from "@config"
 import ShortenUrlRepository from "../../repositories/ShortenUrlRepository";
 
 export default class RedirectService {

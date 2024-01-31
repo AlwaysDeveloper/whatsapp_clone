@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import config from '@config';
 
 export default class PasswordManager {
     /**
@@ -8,7 +7,7 @@ export default class PasswordManager {
      * @returns {Promise<string>}
      */
     async hash(password) {
-        return bcrypt.hash(password, config.passwordManager.salt);
+        return bcrypt.hash(password, APP_CONFIG.passwordManager.salt);
     }
 
     /**
