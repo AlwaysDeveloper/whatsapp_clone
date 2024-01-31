@@ -1,11 +1,11 @@
-import Controller from "../../utils/controller";
-import response from "../../utils/response";
+import Controller from "@utils/controller";
 import UserService from "./user.service";
-import Authorization from "../../middleware/authorization";
-import enums from "../../constants/enums";
+import Authorization from "@middleware/authorization";
 import UserLoginCredentialsDto from "./dtos/user-login.dto";
 import ValidateForOtherServicesDto from "./dtos/validate-for-other-service.dto";
 import CreateUserDto from "./dtos/create-user.dto";
+import UserRepository from "@repositories/UserRepository";
+import PasswordManager from "@common/PasswordManager";
 export default class UserController extends Controller{
     constructor() {
         super(
@@ -30,4 +30,5 @@ export default class UserController extends Controller{
         const result = await this.service.loginWithToken(new ValidateForOtherServicesDto(req));
         return result;
     });
+
 }

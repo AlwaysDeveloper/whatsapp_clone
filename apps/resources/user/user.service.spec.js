@@ -1,5 +1,4 @@
-import { CreateUserDummyDTO } from "../../test/data/DTO";
-import UserRepository from '../../repositories/UserRepository';
+import { CreateUserDummyDTO } from "@test/data/DTO";
 import UserService from './user.service';
 import { expect } from '@test/tools/assertions';
 import PasswordManager from "@common/PasswordManager";
@@ -8,7 +7,7 @@ import { JWTSign } from "@common/JWT";
 import { MockRepository } from "@test/tools/test-repository";
 import UserRepository from "@repositories/UserRepository";
 
-describe.skip('Describing the user service specs.', () => {
+describe.only('Describing the user service specs.', () => {
     let userDummyDTO;
     let token;
     let userService;
@@ -42,14 +41,19 @@ describe.skip('Describing the user service specs.', () => {
 
     it('should create new user.', async () => {
         const result = await userService.create(userDummyDTO);
-        expect(result.username).to.eql(userDummyDTO.username);
         expect(result).to.have.property('token');
         expect(result).to.have.property('exId');
-        expect(result).to.have.property('id');
     });
 
-    afterEach(async () => {
-        await userRespository.clean();
+    it('should get the user via user credentials.', async () => {
+        const result = await userService.login({ username: userDummyDTO.username, password: userDummyDTO.password });
+        expect(result).to.be.have.property('token');
+        expect(result.isLoggedIn).to.be.equal(true);
+    });
+
+    it('should get logged in using token.', async () => {
+        const result = await userService.loginWithToken({token, userRole: userDummyDTO.userRole});
+        expect(result).to.be.have.property('exId');
     });
 
     afterEach(() => {

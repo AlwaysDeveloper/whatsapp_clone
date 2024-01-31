@@ -1,16 +1,54 @@
 import ApiError from '@errors/apierror';
-
-export default function DTO(req) {
-    if(!req && !req.body) {
-        throw new ApiError(500, 'no valid source!');
+import validate from "@validation/validate";
+export default class Dto {
+    #source;
+    #rules;
+    constructor(source, rules) {
+        this.#source = source;
+        this.#rules = rules;
     }
-    const source = req.body || req;
-    
-    return (object) => {
+
+    #map(origin, destination) {
         Object
-            .keys(object)
+            .keys(destination)
             .forEach((key) => {
-                object[key] = source[key]
+                destination[key] = origin[key]
             });
+
+        if(this.#rules) {
+            validate(this.#rules, destination);
+        }
+    }
+
+    fromBody(toMap) {
+        if(!this.#source.body) {
+            throw new ApiError(500, 'no valid source!');
+        }
+        const source = this.#source.body;
+        this.#map(source, toMap);
+    }
+
+    fromQuery(toMap) {
+        if(!this.#source.query) {
+            throw new ApiError(500, 'no valid source!');
+        }
+        const source = this.#source.query;
+        this.#map(source, toMap);
+    }
+
+    fromParams(value) {
+        if(!this.#source.params) {
+            throw new ApiError(500, 'no valid source!');
+        }
+        const source = this.#source.params;
+        return source[value];
+    }
+
+    fromHeaders(toMap) {
+        if(!this.#source.headers) {
+            throw new ApiError(500, 'no valid source!');
+        }
+        const source = this.#source.headers;
+        this.#map(source, toMap);
     }
 }

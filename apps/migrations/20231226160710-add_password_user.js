@@ -22,6 +22,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeColumn('users', 'password');
+    await queryInterface.removeColumn('users', 'password', Sequelize);
   }
 };

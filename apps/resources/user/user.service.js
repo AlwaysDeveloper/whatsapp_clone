@@ -11,7 +11,7 @@ export default class UserService extends Injectable{
     async create(user) {
         const newUser = await this.userRepository.create(user);
         const token = JWTSign({ id: newUser.exId, userRole: newUser.user_role });
-        return { ...newUser, token };
+        return { ...newUser.toJSON(), token };
     }
 
     async login(userCredentials) {
@@ -19,7 +19,7 @@ export default class UserService extends Injectable{
             attributes: ['password', 'userRole', 'exId'],
             where: {
                 username: userCredentials.username,
-                isActive: userStatus.active
+                isActive: UserStatus.active
             }
         });
         const isPasswordCheck = await this.passwordManager.verify(user.password, userCredentials.password);
@@ -36,7 +36,7 @@ export default class UserService extends Injectable{
             where: {
                 exId: decoded.id,
                 userRole: loginCredentials.userRole,
-                isActive: userStatus.active
+                isActive: UserStatus.active
             }
         });
         return user;

@@ -29,8 +29,8 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
     await Promise.all([
-      queryInterface.removeColumn('users', 'fullName'),
-      queryInterface.removeColumn('users', 'countryCode')
+      queryInterface.removeColumn('users', 'fullName', Sequelize),
+      queryInterface.removeColumn('users', 'countryCode', Sequelize)
     ]);
   }
 };
