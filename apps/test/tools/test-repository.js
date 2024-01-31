@@ -1,7 +1,8 @@
 import { Op } from "sequelize";
+import sinon from "sinon";
 import Repository from "../../models";
 
-export default class TestRepository {
+export class TestRepository {
     #name;
     #baseRepository;
     #toClean = [];
@@ -37,5 +38,26 @@ export default class TestRepository {
     async clean () {
         console.log(`Cleaning insert ids: ${this.#toClean.join(',')} of ${this.#name}`);
         const result = await this.#baseRepository.delete({where: { id: { [Op.in]: this.#toClean } }, isForever: true});
+    }
+}
+
+export class MockRepository {
+    stubs;
+    constructor (repository, implementations) {
+        const prototype = repository.prototype;
+        if(typeof prototype === "undefined"){
+            throw new Error("Not a repository to mock.");
+        }
+        this.stubs = Object
+        .keys(implementations)
+        .map(key => {
+            const stub = sinon.stub(prototype, key);
+            stub.resolves(implementations[key]);
+            return stub;
+        });
+    }
+
+    restore() {
+        this.stubs.forEach(stub => stub.restore());
     }
 }

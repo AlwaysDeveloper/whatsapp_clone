@@ -8,10 +8,11 @@ import UserRepository from "@repositories/UserRepository";
 import PasswordManager from "@common/PasswordManager";
 export default class UserController extends Controller{
     constructor() {
-        super();
-        this.service = new UserService(
-            new UserRepository(),
-            new PasswordManager()
+        super(
+            new UserService(
+                new UserRepository(),
+                new PasswordManager()
+            )
         );
     }
 
