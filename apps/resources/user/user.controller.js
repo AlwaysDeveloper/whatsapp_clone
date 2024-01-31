@@ -8,8 +8,12 @@ import ValidateForOtherServicesDto from "./dtos/validate-for-other-service.dto";
 import CreateUserDto from "./dtos/create-user.dto";
 export default class UserController extends Controller{
     constructor() {
-        super();
-        this.service = new UserService();
+        super(
+            new UserService(
+                new UserRepository(),
+                new PasswordManager()
+            )
+        );
     }
 
     create = this.post('/v1/user/create', async (req) => {

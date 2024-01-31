@@ -2,7 +2,7 @@ import JsonWebToken from 'jsonwebtoken';
 import config from '@config';
 import AuthenticationError from '../utils/errors/authenticationerror';
 
-export default function JWTSign(payload) {
+export function JWTSign(payload) {
     return JsonWebToken.sign(
         payload,
         config.jwt.secret,

@@ -1,6 +1,9 @@
 import { Op } from "sequelize";
+import sinon from "sinon";
+import Repository from "../../models";
 
-export default class TestRepository {
+export class TestRepository {
+    #name;
     #baseRepository;
     #toClean = [];
     constructor(repository) {
@@ -26,3 +29,23 @@ export default class TestRepository {
     }
 }
 
+export class MockRepository {
+    stubs;
+    constructor (repository, implementations) {
+        const prototype = repository.prototype;
+        if(typeof prototype === "undefined"){
+            throw new Error("Not a repository to mock.");
+        }
+        this.stubs = Object
+        .keys(implementations)
+        .map(key => {
+            const stub = sinon.stub(prototype, key);
+            stub.resolves(implementations[key]);
+            return stub;
+        });
+    }
+
+    restore() {
+        this.stubs.forEach(stub => stub.restore());
+    }
+}

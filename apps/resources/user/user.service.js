@@ -1,24 +1,21 @@
-import UserRepository from '../../repositories/UserRepository';
-import JWTSign from "@common/JWT";
-import { userStatus } from '../../constants/enums';
-import PasswordManager from '../../common/PasswordManager';
+import { UserStatus } from '../../constants/enums';
 import AuthenticationError from '../../utils/errors/authenticationerror';
-import { JWTVerify } from '../../common/JWT';
+import { JWTSign, JWTVerify } from '../../common/JWT';
+import Injectable from '../../utils/Injectable';
 
-export default class UserService {
-    constructor() { 
-        this.repository = new UserRepository();
-        this.passwordManager = new PasswordManager();
+export default class UserService extends Injectable{
+    constructor(...args) { 
+        super(...args);
     }
 
     async create(user) {
-        const newUser = await this.repository.create(user);
+        const newUser = await this.userRepository.create(user);
         const token = JWTSign({ id: newUser.exId, userRole: newUser.user_role });
         return { ...newUser, token };
     }
 
     async login(userCredentials) {
-        const user = await this.repository.find({
+        const user = await this.userRepository.find({
             attributes: ['password', 'userRole', 'exId'],
             where: {
                 username: userCredentials.username,
@@ -35,7 +32,7 @@ export default class UserService {
 
     async loginWithToken(loginCredentials) {
         const decoded = await JWTVerify(loginCredentials.token);
-        const user = await this.repository.find({
+        const user = await this.userRepository.find({
             where: {
                 exId: decoded.id,
                 userRole: loginCredentials.userRole,

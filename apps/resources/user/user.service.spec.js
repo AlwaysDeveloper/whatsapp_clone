@@ -1,18 +1,43 @@
 import { CreateUserDummyDTO } from "../../test/data/DTO";
 import UserRepository from '../../repositories/UserRepository';
 import UserService from './user.service';
-import { expect } from '../../test/tools/assertions';
-import TestRepository from "../../test/tools/test-repository";
+import { expect } from '@test/tools/assertions';
+import PasswordManager from "@common/PasswordManager";
+import { UserRoles, UserStatus } from "@constants/enums";
+import { JWTSign } from "@common/JWT";
+import { MockRepository } from "@test/tools/test-repository";
+import UserRepository from "@repositories/UserRepository";
 
 describe.skip('Describing the user service specs.', () => {
     let userDummyDTO;
-    let userTest;
-    const userRespository = new TestRepository(new UserRepository());
-    const userService = new UserService();
+    let token;
+    let userService;
+    const passwordManager = new PasswordManager();
+    let userMockRepository;
 
     beforeEach(async () => {
-        userDummyDTO = CreateUserDummyDTO();
-        userTest = await userRespository.create(userDummyDTO);
+        userDummyDTO = { 
+            ...CreateUserDummyDTO(),
+            userRole: UserRoles.user,
+            isActive: UserStatus.active,
+        };
+
+        userMockRepository = new MockRepository(UserRepository, {
+            create: {
+                ...userDummyDTO,
+                toJSON: () => userDummyDTO
+            },
+            find: {
+                ...userDummyDTO,
+                password: await passwordManager.hash(userDummyDTO.password)
+            },
+            getUserCredentials: {
+                ...userDummyDTO
+            }
+        });
+
+        token = JWTSign({ id: userDummyDTO.exId, userRole: userDummyDTO.userRole });
+        userService = new UserService(new UserRepository(), passwordManager);
     });
 
     it('should create new user.', async () => {
@@ -25,5 +50,9 @@ describe.skip('Describing the user service specs.', () => {
 
     afterEach(async () => {
         await userRespository.clean();
+    });
+
+    afterEach(() => {
+        userMockRepository?.restore();
     });
 });
