@@ -1,7 +1,7 @@
-import Repository from '@models';
+import Repository from "@models";
 
 export default class ShortenUrlRepository extends Repository {
-    constructor() {
-        super('ShortenUrl');
-    }
+	constructor() {
+		super("ShortenUrl");
+	}
 }

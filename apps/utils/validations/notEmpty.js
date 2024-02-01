@@ -1,3 +1,3 @@
 export default function notEmpty(value) { 
-    return value !== undefined && value !== null; 
+	return value !== undefined && value !== null; 
 }

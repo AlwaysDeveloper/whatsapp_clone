@@ -1,6 +1,6 @@
 export default {
-    Return: {
-        RESPONSE: 'response',
-        REDIRECT: 'redirect'
-    }
-}
+	Return: {
+		RESPONSE: "response",
+		REDIRECT: "redirect"
+	}
+};

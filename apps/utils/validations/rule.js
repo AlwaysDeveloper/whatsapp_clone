@@ -5,8 +5,8 @@
  * @returns 
  */
 export default function rule(validator, message) {
-    return {
-        validator,
-        message
-    }
+	return {
+		validator,
+		message
+	};
 }

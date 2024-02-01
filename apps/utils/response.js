@@ -6,9 +6,9 @@
  * @returns 
  */
 export default function response (result, message, onError) {
-    return {
-        result,
-        onSuccess: message,
-        onError
-    };
+	return {
+		result,
+		onSuccess: message,
+		onError
+	};
 }

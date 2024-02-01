@@ -1,1 +1,1 @@
-export default function isEmail(value) { return /^\S+@\S+\.\S+$/.test(value) };
+export default function isEmail(value) { return /^\S+@\S+\.\S+$/.test(value); }

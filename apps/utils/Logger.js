@@ -1,5 +1,5 @@
-import { CloudWatchLogger } from '../aws';
+import { CloudWatchLogger } from "../aws";
 
 export async function loggerInitilizer() {
-    const logger = new CloudWatchLogger();
+	new CloudWatchLogger();
 }
